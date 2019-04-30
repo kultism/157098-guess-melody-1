@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Welcome from './components/welcome';
-
-const App = () => <Welcome/>;
+import App from './components/app';
 
 const init = () => {
   ReactDOM.render(<App/>, document.querySelector(`.main`));
