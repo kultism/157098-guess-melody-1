@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Welcome = ({sessionTime, errorsAllowed, onStartButtonClick}) => (
+const Welcome = ({gameTime, errorsCount, onStartButtonClick}) => (
   <section className="welcome">
     <div className="welcome__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"/></div>
     <button className="welcome__button" onClick={onStartButtonClick}>
@@ -10,16 +10,16 @@ const Welcome = ({sessionTime, errorsAllowed, onStartButtonClick}) => (
     <h2 className="welcome__rules-title">Правила игры</h2>
     <p className="welcome__text">Правила просты:</p>
     <ul className="welcome__rules-list">
-      <li>За {sessionTime} минут нужно ответить на все вопросы.</li>
-      <li>Можно допустить {errorsAllowed} ошибки.</li>
+      <li>За {gameTime} минут нужно ответить на все вопросы.</li>
+      <li>Можно допустить {errorsCount} ошибки.</li>
     </ul>
     <p className="welcome__text">Удачи!</p>
   </section>
 );
 
 Welcome.propTypes = {
-  sessionTime: PropTypes.number.isRequired,
-  errorsAllowed: PropTypes.number.isRequired,
+  gameTime: PropTypes.number.isRequired,
+  errorsCount: PropTypes.number.isRequired,
   onStartButtonClick: PropTypes.func
 };
 
