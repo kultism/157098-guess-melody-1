@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 const Welcome = ({gameTime, errorsCount, onStartButtonClick}) => (
   <section className="welcome">
-    <div className="welcome__logo"><img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83"/></div>
     <button className="welcome__button" onClick={onStartButtonClick}>
       <span className="visually-hidden">Начать игру</span>
     </button>
