@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 
 it(`renders correctly`, () => {
   const tree = renderer
-    .create(<Welcome sessionTime={0} errorsAllowed={0}/>)
+    .create(<Welcome gameTime={5} errorsCount={3} onStartButtonClick={jest.fn()}/>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();

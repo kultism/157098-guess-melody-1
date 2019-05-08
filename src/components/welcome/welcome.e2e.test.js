@@ -10,8 +10,8 @@ describe(`<Welcome />`, () => {
 
   it(`simulates click on start button`, () => {
     const wrapper = shallow(<Welcome
-      errorsAllowed={0}
-      sessionTime={0}
+      errorsCount={0}
+      gameTime={0}
       onStartButtonClick={handleClick}/>
     );
 
