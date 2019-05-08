@@ -19,7 +19,7 @@ const Welcome = ({gameTime, errorsCount, onStartButtonClick}) => (
 Welcome.propTypes = {
   gameTime: PropTypes.number.isRequired,
   errorsCount: PropTypes.number.isRequired,
-  onStartButtonClick: PropTypes.func
+  onStartButtonClick: PropTypes.func.isRequired
 };
 
 export default Welcome;

@@ -12,7 +12,7 @@ class App extends PureComponent {
       level: -1
     };
 
-    this._incrementLevel = this._incrementLevel.bind(this);
+    this._switchLevel = this._switchLevel.bind(this);
     this._getQuestionScreen = this._getQuestionScreen.bind(this);
   }
 
@@ -53,13 +53,13 @@ class App extends PureComponent {
         {level < 0
           ? <Welcome
             gameTime={gameTime} errorsCount={errorsCount}
-            onStartButtonClick={() => this._incrementLevel(questions.length)}/>
+            onStartButtonClick={() => this._switchLevel(questions.length)}/>
           : this._getQuestionScreen(questions, level)}
       </section>
     );
   }
 
-  _incrementLevel(levelBoundary) {
+  _switchLevel(levelBoundary) {
     this.setState(({level}) => {
       const nextLevel = (level + 1 >= levelBoundary) ? -1 : level + 1;
 
@@ -77,11 +77,11 @@ class App extends PureComponent {
       case `genre`:
         return <GenreQuestionScreen
           question={currentQuestion}
-          onAnswer={() => this._incrementLevel(questions.length)}/>;
+          onAnswer={() => this._switchLevel(questions.length)}/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
-          onAnswer={() => this._incrementLevel(questions.length)}/>;
+          onAnswer={() => this._switchLevel(questions.length)}/>;
     }
 
     return null;
