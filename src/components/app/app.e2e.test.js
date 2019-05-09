@@ -33,11 +33,12 @@ const questions = [
 
 describe(`<App/>`, () => {
   it(`starts app from welcome screen`, () => {
-    const app = shallow(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
 
     const welcomeContainer = app.find(`section.welcome`);
     expect(welcomeContainer).toHaveLength(1);
   });
+
   it(`switches from welcome screen to a game screen on play button`, () => {
     const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
     const playButton = app.find(`button.welcome__button`);
