@@ -6,7 +6,10 @@ const GenreQuestionScreen = ({question, onAnswer}) => {
   return (
     <section className="game__screen">
       <h2 className="game__title">Выберите {question.genre} треки</h2>
-      <form className="game__tracks" onSubmit={onAnswer}>
+      <form className="game__tracks" onSubmit={(evt) => {
+        evt.preventDefault();
+        onAnswer();
+      }}>
         {
           answers.map((answer, idx) => (
             <div key={idx} className="track">
