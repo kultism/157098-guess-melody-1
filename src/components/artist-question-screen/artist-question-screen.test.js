@@ -22,7 +22,7 @@ const question = {
       artist: `Three`,
     }
   ],
-}
+};
 
 describe(`<ArtistQuestionScreen/>`, () => {
   it(`renders correctly`, () => {

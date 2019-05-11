@@ -1,4 +1,4 @@
-import Enzyme, {mount, shallow} from 'enzyme';
+import Enzyme, {mount} from 'enzyme';
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import App from './app';
@@ -34,9 +34,9 @@ const questions = [
 describe(`<App/>`, () => {
   it(`starts app from welcome screen`, () => {
     const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const welcomeComponent = app.find(`Welcome`);
 
-    const welcomeContainer = app.find(`section.welcome`);
-    expect(welcomeContainer).toHaveLength(1);
+    expect(welcomeComponent).toHaveLength(1);
   });
 
   it(`switches from welcome screen to a game screen on play button`, () => {
@@ -44,10 +44,33 @@ describe(`<App/>`, () => {
     const playButton = app.find(`button.welcome__button`);
 
     playButton.simulate(`click`);
+    app.update();
 
     const gameScreenContainer = app.find(`section.game__screen`);
 
+    expect(app.state(`level`)).toEqual(0);
     expect(gameScreenContainer).toHaveLength(1);
+  });
 
+  it(`switches to welcome screen from last level`, () => {
+    const WELCOME_SCREEN_LEVEL = -1;
+    const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const lastLevelIdx = questions.length - 1;
+
+    app.setState({level: lastLevelIdx});
+    app.update();
+
+    const form = app.find(`form`);
+    const getFormAction = (question) => question.type === `artist` ? `change` : `submit`;
+
+    form.simulate(`${getFormAction(questions[lastLevelIdx])}`, {
+      preventDefault() {
+      }
+    });
+
+    const welcomeComponent = app.find(`Welcome`);
+
+    expect(app.state(`level`)).toEqual(WELCOME_SCREEN_LEVEL);
+    expect(welcomeComponent).toHaveLength(1);
   });
 });
