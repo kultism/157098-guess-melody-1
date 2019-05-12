@@ -2,10 +2,12 @@ import React from 'react';
 import Welcome from './welcome';
 import renderer from 'react-test-renderer';
 
-it(`renders correctly`, () => {
-  const tree = renderer
-    .create(<Welcome sessionTime={0} errorsAllowed={0}/>)
-    .toJSON();
+describe(`<Welcome/>`, () => {
+  it(`renders correctly`, () => {
+    const tree = renderer
+      .create(<Welcome gameTime={5} errorsCount={3} onStartButtonClick={jest.fn()}/>)
+      .toJSON();
 
-  expect(tree).toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
+  });
 });

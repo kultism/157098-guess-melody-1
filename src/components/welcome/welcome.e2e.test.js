@@ -6,12 +6,11 @@ import Welcome from './welcome';
 Enzyme.configure({adapter: new Adapter()});
 
 describe(`<Welcome />`, () => {
-  const handleClick = jest.fn();
-
-  it(`simulates click on start button`, () => {
+  it(`fires callback function on start button`, () => {
+    const handleClick = jest.fn();
     const wrapper = shallow(<Welcome
-      errorsAllowed={0}
-      sessionTime={0}
+      errorsCount={0}
+      gameTime={0}
       onStartButtonClick={handleClick}/>
     );
 
