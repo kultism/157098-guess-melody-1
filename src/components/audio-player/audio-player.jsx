@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-class AudioPlayer extends Component {
+class AudioPlayer extends PureComponent {
   constructor(props) {
     super(props);
 

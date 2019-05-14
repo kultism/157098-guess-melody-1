@@ -1,37 +1,58 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import AudioPlayer from "../audio-player";
 
-const GenreQuestionScreen = ({question, onAnswer}) => {
-  const {answers} = question;
-  return (
-    <section className="game__screen">
-      <h2 className="game__title">Выберите {question.genre} треки</h2>
-      <form className="game__tracks" onSubmit={(evt) => {
-        evt.preventDefault();
-        onAnswer();
-      }}>
-        {
-          answers.map((answer, idx) => (
-            <div key={idx} className="track">
-              <AudioPlayer src={answer.src}/>
-              <div className="game__answer">
-                <input
-                  className="game__input visually-hidden"
-                  type="checkbox"
-                  name="answer"
-                  value={`answer-${idx}`}
-                  id={`answer-${idx}`}/>
-                <label className="game__check" htmlFor={`answer-${idx}`}>Отметить</label>
+class GenreQuestionScreen extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activePlayer: -1,
+    };
+
+    this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
+  }
+
+  render() {
+    const {question, onAnswer} = this.props;
+
+    return (
+      <section className="game__screen">
+        <h2 className="game__title">Выберите {question.genre} треки</h2>
+        <form className="game__tracks" onSubmit={(evt) => {
+          evt.preventDefault();
+          onAnswer();
+        }}>
+          {
+            question.answers.map((answer, idx) => (
+              <div key={idx} className="track">
+                <AudioPlayer
+                  src={answer.src}
+                  isPlaying={this.state.activePlayer === idx}
+                  onPlayButtonClick={() => this._handlePlayButtonClick(idx)}
+                />
+                <div className="game__answer">
+                  <input
+                    className="game__input visually-hidden"
+                    type="checkbox"
+                    name="answer"
+                    value={`answer-${idx}`}
+                    id={`answer-${idx}`}/>
+                  <label className="game__check" htmlFor={`answer-${idx}`}>Отметить</label>
+                </div>
               </div>
-            </div>
-          ))
-        }
-        <button className="game__submit button" type="submit">Ответить</button>
-      </form>
-    </section>
-  );
-};
+            ))
+          }
+          <button className="game__submit button" type="submit">Ответить</button>
+        </form>
+      </section>
+    );
+  }
+
+  _handlePlayButtonClick(idx) {
+    this.setState({activePlayer: this.state.activePlayer === idx ? -1 : idx});
+  }
+}
 
 GenreQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
