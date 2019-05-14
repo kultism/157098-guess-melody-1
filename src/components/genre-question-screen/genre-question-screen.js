@@ -13,9 +13,11 @@ const GenreQuestionScreen = ({question, onAnswer}) => {
         {
           answers.map((answer, idx) => (
             <div key={idx} className="track">
-              <button className="track__button track__button--play" type="button"/>
-              <div className="track__status">
-                <audio src={answer.src}/>
+              <div className="game__track">
+                <button className="track__button track__button--play" type="button"/>
+                <div className="track__status">
+                  <audio src={answer.src}/>
+                </div>
               </div>
               <div className="game__answer">
                 <input

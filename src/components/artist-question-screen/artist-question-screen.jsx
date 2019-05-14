@@ -9,7 +9,9 @@ const ArtistQuestionScreen = ({question, onAnswer}) => {
       <h2 className="game__title">Кто исполняет эту песню?</h2>
       <div className="game__track">
         <button className="track__button track__button--play" type="button"/>
-        <audio src={question.song.src}/>
+        <div className="track__status">
+          <audio src={question.song.src}/>
+        </div>
       </div>
 
       <form className="game__artist" onChange={onAnswer}>
