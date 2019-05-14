@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AudioPlayer from "../audio-player";
 
 const GenreQuestionScreen = ({question, onAnswer}) => {
   const {answers} = question;
@@ -13,12 +14,7 @@ const GenreQuestionScreen = ({question, onAnswer}) => {
         {
           answers.map((answer, idx) => (
             <div key={idx} className="track">
-              <div className="game__track">
-                <button className="track__button track__button--play" type="button"/>
-                <div className="track__status">
-                  <audio src={answer.src}/>
-                </div>
-              </div>
+              <AudioPlayer src={answer.src}/>
               <div className="game__answer">
                 <input
                   className="game__input visually-hidden"

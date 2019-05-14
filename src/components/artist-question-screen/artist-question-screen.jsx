@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AudioPlayer from "../audio-player";
 
 const ArtistQuestionScreen = ({question, onAnswer}) => {
   const {answers} = question;
@@ -7,12 +8,7 @@ const ArtistQuestionScreen = ({question, onAnswer}) => {
   return (
     <section className="game__screen">
       <h2 className="game__title">Кто исполняет эту песню?</h2>
-      <div className="game__track">
-        <button className="track__button track__button--play" type="button"/>
-        <div className="track__status">
-          <audio src={question.song.src}/>
-        </div>
-      </div>
+      <AudioPlayer src={question.song.src}/>
 
       <form className="game__artist" onChange={onAnswer}>
         {
