@@ -29,4 +29,19 @@ describe(`<AudioPlayer/>`, () => {
 
     expect(playButton.hasClass(`track__button--pause`)).toEqual(true);
   });
+
+  it(`fires onPlayButtonClick callback on play button click`, () => {
+    const spy = jest.fn();
+
+    const audioPlayer = mount(<AudioPlayer
+      src={src}
+      onPlayButtonClick={spy}
+      isPlaying={true}
+    />);
+
+    const playButton = audioPlayer.find(`button.track__button`);
+    playButton.simulate(`click`);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
