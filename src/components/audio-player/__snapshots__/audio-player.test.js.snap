@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AudioPlayer/> renders correctly 1`] = `
+<div
+  className="game__track"
+>
+  <button
+    className="track__button track__button--play"
+    onClick={[MockFunction]}
+    type="button"
+  />
+  <div
+    className="track__status"
+  >
+    <audio
+      src="path.ogg"
+    />
+  </div>
+</div>
+`;
