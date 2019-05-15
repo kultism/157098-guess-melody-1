@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import AudioPlayer from "../audio-player";
+import AudioPlayer from '../audio-player';
 
 class ArtistQuestionScreen extends PureComponent {
   constructor(props) {
