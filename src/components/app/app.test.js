@@ -28,10 +28,13 @@ const questions = [
   }
 ];
 
-it(`renders correctly`, () => {
-  const tree = renderer
-    .create(<App gameTime={3} errorsCount={3} questions={questions}/>)
-    .toJSON();
 
-  expect(tree).toMatchSnapshot();
+describe(`<App/>`, () => {
+  it(`renders correctly`, () => {
+    const tree = renderer
+      .create(<App gameTime={3} errorsCount={3} questions={questions}/>)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });
