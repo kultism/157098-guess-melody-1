@@ -50,7 +50,7 @@ class GenreQuestionScreen extends PureComponent {
   }
 
   _handlePlayButtonClick(idx) {
-    this.setState({activePlayer: this.state.activePlayer === idx ? -1 : idx});
+    this.setState(({activePlayer}) => ({activePlayer: activePlayer === idx ? -1 : idx}));
   }
 }
 
