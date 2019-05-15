@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 class AudioPlayer extends PureComponent {
   constructor(props) {
     super(props);
+  }
 
+  componentDidMount() {
     this._audioRef = React.createRef();
   }
 
