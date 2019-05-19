@@ -1,32 +1,43 @@
-import React, {useEffect, useRef} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-const AudioPlayer = ({src, isPlaying, onPlayButtonClick}) => {
-  const audioRef = useRef(null);
+class AudioPlayer extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  useEffect(() => {
-    const audioEl = audioRef.current;
+    this._audioRef = React.createRef();
+  }
 
-    if (isPlaying) {
+  componentDidUpdate() {
+    const audioEl = this._audioRef.current;
+
+    if (this.props.isPlaying) {
       audioEl.play();
     } else {
       audioEl.pause();
     }
-  });
+  }
 
-  return (
-    <div className="game__track">
-      <button
-        className={`track__button track__button--${isPlaying ? `pause` : `play`}`}
-        type="button"
-        onClick={onPlayButtonClick}
-      />
-      <div className="track__status">
-        <audio src={src} ref={audioRef}/>
+  render() {
+    const {src, isPlaying, onPlayButtonClick} = this.props;
+
+    return (
+      <div className="game__track">
+        <button
+          className={`track__button track__button--${isPlaying ? `pause` : `play`}`}
+          type="button"
+          onClick={onPlayButtonClick}
+        />
+        <div className="track__status">
+          <audio
+            src={src}
+            ref={this._audioRef}
+          />
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 AudioPlayer.propTypes = {
   src: PropTypes.string.isRequired,
