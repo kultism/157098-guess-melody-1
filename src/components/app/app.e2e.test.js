@@ -1,7 +1,7 @@
 import Enzyme, {mount} from 'enzyme';
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
-import App from './app';
+import {App} from './app';
 
 Enzyme.configure({adapter: new Adapter()});
 
@@ -33,14 +33,30 @@ const questions = [
 
 describe(`<App/>`, () => {
   it(`starts app from welcome screen`, () => {
-    const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const app = mount(<App
+      questions={questions}
+      level={-1}
+      gameTime={3}
+      maxErrors={3}
+      errorsCount={1}
+      onStartButtonClick={jest.fn()}
+      onAnswer={jest.fn()}
+    />);
     const welcomeComponent = app.find(`Welcome`);
 
     expect(welcomeComponent).toHaveLength(1);
   });
 
   it(`switches from welcome screen to a game screen on play button`, () => {
-    const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const app = mount(<App
+      questions={questions}
+      level={-1}
+      gameTime={3}
+      maxErrors={3}
+      errorsCount={1}
+      onStartButtonClick={jest.fn()}
+      onAnswer={jest.fn()}
+    />);
     const playButton = app.find(`button.welcome__button`);
 
     playButton.simulate(`click`);
@@ -54,7 +70,15 @@ describe(`<App/>`, () => {
 
   it(`switches to welcome screen from last level`, () => {
     const WELCOME_SCREEN_LEVEL = -1;
-    const app = mount(<App questions={questions} gameTime={5} errorsCount={3}/>);
+    const app = mount(<App
+      questions={questions}
+      level={-1}
+      gameTime={3}
+      maxErrors={3}
+      errorsCount={1}
+      onStartButtonClick={jest.fn()}
+      onAnswer={jest.fn()}
+    />);
     const lastLevelIdx = questions.length - 1;
 
     app.setState({level: lastLevelIdx});
@@ -62,6 +86,8 @@ describe(`<App/>`, () => {
 
     const form = app.find(`form`);
     const getFormAction = (question) => question.type === `artist` ? `change` : `submit`;
+
+    console.log(app.debug());
 
     form.simulate(`${getFormAction(questions[lastLevelIdx])}`, {
       preventDefault() {
