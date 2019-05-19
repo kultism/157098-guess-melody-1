@@ -1,23 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreators} from '../../redux/actions';
+import {ActionCreator} from '../../redux/actions';
 import Welcome from '../welcome';
 import ArtistQuestionScreen from '../artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen';
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      level: -1
-    };
-
-    this._switchLevel = this._switchLevel.bind(this);
-    this._getScreen = this._getScreen.bind(this);
-  }
-
   render() {
     return (
       <section className="game">
@@ -55,25 +44,14 @@ class App extends PureComponent {
     );
   }
 
-  _switchLevel(levelBoundary) {
-    this.setState(({level}) => {
-      const nextLevel = (level + 1 >= levelBoundary) ? -1 : level + 1;
-
-      return {
-        level: nextLevel
-      };
-    });
-  }
-
   _getScreen() {
-    const {level} = this.state;
-    const {gameTime, errorsCount, questions} = this.props;
+    const {level, gameTime, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
 
     if (level < 0) {
       return (
         <Welcome
           gameTime={gameTime} errorsCount={errorsCount}
-          onStartButtonClick={() => this._switchLevel(questions.length)}
+          onStartButtonClick={() => onStartButtonClick(level, questions.length)}
         />
       );
     }
@@ -85,11 +63,11 @@ class App extends PureComponent {
       case `genre`:
         return <GenreQuestionScreen
           question={currentQuestion}
-          onAnswer={() => this._switchLevel(questions.length)}/>;
+          onAnswer={() => onAnswer(level, questions.length)}/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
-          onAnswer={() => this._switchLevel(questions.length)}/>;
+          onAnswer={() => onAnswer(level, questions.length)}/>;
     }
 
     return null;
@@ -100,6 +78,9 @@ App.propTypes = {
   questions: PropTypes.array.isRequired,
   gameTime: PropTypes.number.isRequired,
   errorsCount: PropTypes.number.isRequired,
+  level: PropTypes.number.isRequired,
+  onStartButtonClick: PropTypes.func.isRequired,
+  onAnswer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
@@ -107,7 +88,11 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   errorsCount: state.errorsCount,
 });
 
-const mapDispatchToProps = () => {
-};
+const mapDispatchToProps = (dispatch) => ({
+  onStartButtonClick: (level, levelBoundary) => dispatch(ActionCreator.incrementLevel(level, levelBoundary)),
+  onAnswer: (level, levelBoundary) => {
+    dispatch(ActionCreator.incrementLevel(level, levelBoundary));
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
