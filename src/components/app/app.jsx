@@ -20,7 +20,6 @@ class App extends PureComponent {
 
   _getScreen() {
     const {level, gameTime, maxErrors, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
-    console.log(this.props);
     if (level < 0) {
       return (
         <Welcome
