@@ -6,10 +6,9 @@ const initialState = {
 const app = (state = initialState, action) => {
   switch (action.type) {
     case `INCREMENT_LEVEL`:
-      console.log(`redux works...`);
 
       return Object.assign({}, state, {
-        level: state.level + 1,
+        level: action.payload,
       });
 
     default:
