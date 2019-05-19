@@ -26,7 +26,7 @@ class ArtistQuestionScreen extends PureComponent {
           onPlayButtonClick={this._handlePlayButtonClick}
         />
 
-        <form className="game__artist" onChange={onAnswer}>
+        <form className="game__artist">
           {
             question.answers.map((answer, idx) => (
               <div key={idx} className="artist">
@@ -35,7 +35,8 @@ class ArtistQuestionScreen extends PureComponent {
                   type="radio"
                   name="answer"
                   value={`artist-${idx}`}
-                  id={`answer-${idx}`}/>
+                  id={`answer-${idx}`}
+                  onClick={() => onAnswer(answer.artist)}/>
                 <label className="artist__name" htmlFor={`answer-${idx}`}>
                   <img className="artist__picture" src={answer.path} alt={answer.artist}/>
                   {answer.artist}

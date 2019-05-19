@@ -38,13 +38,17 @@ class App extends PureComponent {
         return <GenreQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
+            console.log(answer);
             onAnswer(level, questions.length);
           }
           }/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
-          onAnswer={() => onAnswer(level, questions.length)}/>;
+          onAnswer={(answer) => {
+            console.log(answer);
+            onAnswer(level, questions.length);
+          }}/>;
       default:
         return null;
     }
