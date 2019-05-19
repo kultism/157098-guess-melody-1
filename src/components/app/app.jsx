@@ -1,5 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionCreators} from '../../redux/actions';
 import Welcome from '../welcome';
 import ArtistQuestionScreen from '../artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen';
@@ -13,12 +15,10 @@ class App extends PureComponent {
     };
 
     this._switchLevel = this._switchLevel.bind(this);
-    this._getQuestionScreen = this._getQuestionScreen.bind(this);
+    this._getScreen = this._getScreen.bind(this);
   }
 
   render() {
-    const {gameTime, errorsCount, questions} = this.props;
-    const {level} = this.state;
     return (
       <section className="game">
         <header className="game__header">
@@ -50,11 +50,7 @@ class App extends PureComponent {
           </div>
         </header>
 
-        {level < 0
-          ? <Welcome
-            gameTime={gameTime} errorsCount={errorsCount}
-            onStartButtonClick={() => this._switchLevel(questions.length)}/>
-          : this._getQuestionScreen(questions, level)}
+        {this._getScreen()}
       </section>
     );
   }
@@ -69,7 +65,19 @@ class App extends PureComponent {
     });
   }
 
-  _getQuestionScreen(questions, level) {
+  _getScreen() {
+    const {level} = this.state;
+    const {gameTime, errorsCount, questions} = this.props;
+
+    if (level < 0) {
+      return (
+        <Welcome
+          gameTime={gameTime} errorsCount={errorsCount}
+          onStartButtonClick={() => this._switchLevel(questions.length)}
+        />
+      );
+    }
+
     const currentQuestion = questions[level];
     const currentLevelType = currentQuestion.type;
 
@@ -91,7 +99,15 @@ class App extends PureComponent {
 App.propTypes = {
   questions: PropTypes.array.isRequired,
   gameTime: PropTypes.number.isRequired,
-  errorsCount: PropTypes.number.isRequired
+  errorsCount: PropTypes.number.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  level: state.level,
+  errorsCount: state.errorsCount,
+});
+
+const mapDispatchToProps = () => {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
