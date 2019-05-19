@@ -7,9 +7,10 @@ const app = (state = initialState, action) => {
   switch (action.type) {
     case `INCREMENT_LEVEL`:
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         level: action.payload,
-      });
+      };
 
     default:
       return state;

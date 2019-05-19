@@ -64,7 +64,7 @@ App.propTypes = {
   onAnswer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+const mapStateToProps = (state) => ({
   level: state.level,
   errorsCount: state.errorsCount,
 });
