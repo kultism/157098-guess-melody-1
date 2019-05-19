@@ -1,5 +1,5 @@
 import React from 'react';
-import App from './app';
+import {App} from './app';
 import renderer from 'react-test-renderer';
 
 const questions = [
@@ -32,7 +32,15 @@ const questions = [
 describe(`<App/>`, () => {
   it(`renders correctly`, () => {
     const tree = renderer
-      .create(<App gameTime={3} errorsCount={3} questions={questions}/>)
+      .create(<App
+        questions={questions}
+        level={-1}
+        gameTime={3}
+        maxErrors={3}
+        errorsCount={1}
+        onStartButtonClick={jest.fn()}
+        onAnswer={jest.fn()}
+      />)
       .toJSON();
 
     expect(tree).toMatchSnapshot();
