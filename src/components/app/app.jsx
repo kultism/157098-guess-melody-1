@@ -11,7 +11,7 @@ class App extends PureComponent {
   render() {
     return (
       <section className="game">
-        <Header/>
+        <Header errorsCount={this.props.errorsCount}/>
 
         {this._getScreen()}
       </section>
@@ -19,12 +19,12 @@ class App extends PureComponent {
   }
 
   _getScreen() {
-    const {level, gameTime, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
+    const {level, gameTime, maxErrors, questions, onStartButtonClick, onAnswer} = this.props;
 
     if (level < 0) {
       return (
         <Welcome
-          gameTime={gameTime} errorsCount={errorsCount}
+          gameTime={gameTime} errorsCount={maxErrors}
           onStartButtonClick={() => onStartButtonClick(level, questions.length)}
         />
       );
@@ -57,9 +57,10 @@ class App extends PureComponent {
 
 App.propTypes = {
   questions: PropTypes.array.isRequired,
-  gameTime: PropTypes.number.isRequired,
-  errorsCount: PropTypes.number.isRequired,
   level: PropTypes.number.isRequired,
+  gameTime: PropTypes.number.isRequired,
+  maxErrors: PropTypes.number.isRequired,
+  errorsCount: PropTypes.number.isRequired,
   onStartButtonClick: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
 };

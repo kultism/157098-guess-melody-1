@@ -1,5 +1,5 @@
 const initialState = {
-  errorsCount: 3,
+  errorsCount: 0,
   level: -1,
 };
 

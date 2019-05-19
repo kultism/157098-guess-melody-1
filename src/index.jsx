@@ -7,18 +7,18 @@ import questions from './mocks/questions';
 
 const gameSettings = {
   gameTime: 5,
-  errorsCount: 3
+  maxErrors: 3
 };
 
 const rootElement = document.querySelector(`.main`);
 
 const init = () => {
-  const {gameTime, errorsCount} = gameSettings;
+  const {gameTime, maxErrors} = gameSettings;
   ReactDOM.render(<Provider store={store}>
     <App
       questions={questions}
       gameTime={gameTime}
-      errorsCount={errorsCount}/>
+      maxErrors={maxErrors}/>
   </Provider>, rootElement);
 };
 
