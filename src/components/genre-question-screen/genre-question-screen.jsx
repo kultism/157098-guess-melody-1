@@ -6,8 +6,11 @@ class GenreQuestionScreen extends PureComponent {
   constructor(props) {
     super(props);
 
+    const {answers} = this.props.question;
+
     this.state = {
       activePlayer: -1,
+      userAnswer: new Array(answers.length).fill(false),
     };
 
     this._handlePlayButtonClick = this._handlePlayButtonClick.bind(this);
@@ -15,13 +18,14 @@ class GenreQuestionScreen extends PureComponent {
 
   render() {
     const {question, onAnswer} = this.props;
+    const {userAnswer} = this.state;
 
     return (
       <section className="game__screen">
         <h2 className="game__title">Выберите {question.genre} треки</h2>
         <form className="game__tracks" onSubmit={(evt) => {
           evt.preventDefault();
-          onAnswer();
+          onAnswer(userAnswer);
         }}>
           {
             question.answers.map((answer, idx) => (
@@ -37,7 +41,13 @@ class GenreQuestionScreen extends PureComponent {
                     type="checkbox"
                     name="answer"
                     value={`answer-${idx}`}
-                    id={`answer-${idx}`}/>
+                    id={`answer-${idx}`}
+                    onChange={() => {
+                      const answers = [...userAnswer];
+                      answers[idx] = !answers[idx];
+
+                      this.setState({userAnswer: answers});
+                    }}/>
                   <label className="game__check" htmlFor={`answer-${idx}`}>Отметить</label>
                 </div>
               </div>
