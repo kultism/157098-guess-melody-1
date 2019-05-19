@@ -20,7 +20,6 @@ const question = {
     }
   ],
 };
-;
 
 describe(`<GenreQuestionScreen/>`, () => {
   it(`renders correctly`, () => {
