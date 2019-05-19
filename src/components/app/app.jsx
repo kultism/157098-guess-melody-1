@@ -19,7 +19,7 @@ class App extends PureComponent {
   }
 
   _getScreen() {
-    const {level, gameTime, maxErrors, questions, onStartButtonClick, onAnswer} = this.props;
+    const {level, gameTime, maxErrors, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
 
     if (level < 0) {
       return (
@@ -38,16 +38,14 @@ class App extends PureComponent {
         return <GenreQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            console.log(answer);
-            onAnswer(level, questions.length);
+            onAnswer(level, questions.length, errorsCount, questions[level], answer);
           }
           }/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            console.log(answer);
-            onAnswer(level, questions.length);
+            onAnswer(level, questions.length, errorsCount, questions[level], answer);
           }}/>;
       default:
         return null;
@@ -72,7 +70,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onStartButtonClick: (level, levelBoundary) => dispatch(ActionCreator.incrementLevel(level, levelBoundary)),
-  onAnswer: (level, levelBoundary) => {
+  onAnswer: (level, levelBoundary, errorsCount, question, answer) => {
+    dispatch(ActionCreator.incrementError(errorsCount, question, answer));
     dispatch(ActionCreator.incrementLevel(level, levelBoundary));
   }
 });
