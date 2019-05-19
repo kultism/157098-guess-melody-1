@@ -7,7 +7,7 @@ import questions from './mocks/questions';
 
 const gameSettings = {
   gameTime: 5,
-  maxErrors: 3
+  maxErrors: 1
 };
 
 const rootElement = document.querySelector(`.main`);

@@ -20,11 +20,12 @@ class App extends PureComponent {
 
   _getScreen() {
     const {level, gameTime, maxErrors, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
-
+    console.log(this.props);
     if (level < 0) {
       return (
         <Welcome
-          gameTime={gameTime} errorsCount={maxErrors}
+          gameTime={gameTime}
+          errorsCount={maxErrors}
           onStartButtonClick={() => onStartButtonClick(level, questions.length)}
         />
       );
@@ -38,14 +39,14 @@ class App extends PureComponent {
         return <GenreQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            onAnswer(level, questions.length, errorsCount, questions[level], answer);
+            onAnswer(level, questions.length, errorsCount, maxErrors, questions[level], answer);
           }
           }/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            onAnswer(level, questions.length, errorsCount, questions[level], answer);
+            onAnswer(level, questions.length, errorsCount, maxErrors, questions[level], answer);
           }}/>;
       default:
         return null;
@@ -70,9 +71,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onStartButtonClick: (level, levelBoundary) => dispatch(ActionCreator.incrementLevel(level, levelBoundary)),
-  onAnswer: (level, levelBoundary, errorsCount, question, answer) => {
-    dispatch(ActionCreator.incrementError(errorsCount, question, answer));
-    dispatch(ActionCreator.incrementLevel(level, levelBoundary));
+  onAnswer: (level, levelBoundary, errorsCount, maxErrors, question, answer) => {
+    dispatch(ActionCreator.incrementError(question, answer));
+
+    if (errorsCount > maxErrors) {
+      return dispatch(ActionCreator.resetState());
+    }
+
+    return dispatch(ActionCreator.incrementLevel(level, levelBoundary));
   }
 });
 

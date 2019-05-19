@@ -3,9 +3,7 @@ const isGenreAnswerCorrect = (question, answer) => {
   return correctAnswersMap.every((it, idx) => answer[idx] === it);
 };
 
-const isArtistAnswerCorrect = (question, answer) => {
-  return question.song.artist === answer;
-};
+const isArtistAnswerCorrect = (question, answer) => question.song.artist === answer;
 
 export const ActionCreator = {
   incrementLevel: (level, levelBoundary) => {
@@ -16,20 +14,28 @@ export const ActionCreator = {
       payload: nextLevel,
     };
   },
-  incrementError: (errorsCount, question, answer) => {
+
+  incrementError: (question, answer) => {
+    let isAnswerCorrect = false;
+
     switch (question.type) {
       case `genre`:
-        return {
-          type: `INCREMENT_ERROR`,
-          payload: isGenreAnswerCorrect(question, answer) ? errorsCount : errorsCount + 1,
-        };
+        isAnswerCorrect = isGenreAnswerCorrect(question, answer);
+        break;
       case `artist`:
-        return {
-          type: `INCREMENT_ERROR`,
-          payload: isArtistAnswerCorrect(question, answer) ? errorsCount : errorsCount + 1,
-        };
-      default:
-        return null;
+        isAnswerCorrect = isArtistAnswerCorrect(question, answer);
+        break;
     }
+
+    return {
+      type: `INCREMENT_ERROR`,
+      payload: isAnswerCorrect ? 0 : 1,
+    };
+  },
+
+  resetState: () => {
+    return {
+      type: `RESET`,
+    };
   }
 };

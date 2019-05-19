@@ -1,6 +1,6 @@
 const initialState = {
   errorsCount: 0,
-  level: 1,
+  level: -1,
 };
 
 const app = (state = initialState, action) => {
@@ -16,7 +16,11 @@ const app = (state = initialState, action) => {
         ...state,
         errorsCount: action.payload,
       };
-
+    case (`RESET`): {
+      return {
+        ...initialState,
+      };
+    }
     default:
       return state;
   }
