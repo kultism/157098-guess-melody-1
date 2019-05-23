@@ -1,6 +1,11 @@
+import questions from '../../../mocks/questions';
+
 const initialState = {
+  maxErrors: 1,
+  gameTime: 5,
   errorsCount: 0,
   level: -1,
+  levelBoundary: questions.length,
 };
 
 const app = (state = initialState, action) => {

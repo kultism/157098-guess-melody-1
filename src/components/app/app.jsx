@@ -7,11 +7,13 @@ import ArtistQuestionScreen from '../artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen';
 import Header from '../header';
 
+import questions from '../../mocks/questions';
+
 class App extends PureComponent {
   render() {
     return (
       <section className="game">
-        <Header errorsCount={this.props.errorsCount}/>
+        <Header />
 
         {this._getScreen()}
       </section>
@@ -19,13 +21,11 @@ class App extends PureComponent {
   }
 
   _getScreen() {
-    const {level, gameTime, maxErrors, errorsCount, questions, onStartButtonClick, onAnswer} = this.props;
+    const {level, onStartButtonClick, onAnswer} = this.props;
     if (level < 0) {
       return (
         <Welcome
-          gameTime={gameTime}
-          errorsCount={maxErrors}
-          onStartButtonClick={() => onStartButtonClick(level, questions.length)}
+          onStartButtonClick={() => onStartButtonClick()}
         />
       );
     }
@@ -38,14 +38,14 @@ class App extends PureComponent {
         return <GenreQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            onAnswer(level, questions.length, errorsCount, maxErrors, questions[level], answer);
+            onAnswer(questions[level], answer);
           }
           }/>;
       case `artist`:
         return <ArtistQuestionScreen
           question={currentQuestion}
           onAnswer={(answer) => {
-            onAnswer(level, questions.length, errorsCount, maxErrors, questions[level], answer);
+            onAnswer(questions[level], answer);
           }}/>;
       default:
         return null;
@@ -54,30 +54,22 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  questions: PropTypes.array.isRequired,
+  levelBoundary: PropTypes.number.isRequired,
   level: PropTypes.number.isRequired,
-  gameTime: PropTypes.number.isRequired,
-  maxErrors: PropTypes.number.isRequired,
-  errorsCount: PropTypes.number.isRequired,
   onStartButtonClick: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   level: state.level,
-  errorsCount: state.errorsCount,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onStartButtonClick: (level, levelBoundary) => dispatch(ActionCreator.incrementLevel(level, levelBoundary)),
-  onAnswer: (level, levelBoundary, errorsCount, maxErrors, question, answer) => {
-    dispatch(ActionCreator.incrementError(question, answer));
-
-    if (errorsCount > maxErrors) {
-      return dispatch(ActionCreator.resetState());
-    }
-
-    return dispatch(ActionCreator.incrementLevel(level, levelBoundary));
+  onStartButtonClick: () => {
+    dispatch(ActionCreator.incrementLevel());
+  },
+  onAnswer: (question, answer) => {
+    dispatch(ActionCreator.checkAnswer(question, answer));
   }
 });
 

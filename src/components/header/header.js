@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 const Header = ({errorsCount}) => {
   const errors = new Array(errorsCount).fill(null).map((_, idx) => <div key={idx} className="wrong"/>);
@@ -34,8 +35,12 @@ const Header = ({errorsCount}) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  errorsCount: state.errorsCount
+});
+
 Header.propTypes = {
   errorsCount: PropTypes.number.isRequired,
 };
 
-export default Header;
+export default connect(mapStateToProps)(Header);

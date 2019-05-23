@@ -1,3 +1,7 @@
+import store from '../store';
+
+const ERROR_LEVEL_SCALE = 1;
+
 const isGenreAnswerCorrect = (question, answer) => {
   const correctAnswersMap = question.answers.map((it) => it.genre === question.genre);
   return correctAnswersMap.every((it, idx) => answer[idx] === it);
@@ -6,7 +10,8 @@ const isGenreAnswerCorrect = (question, answer) => {
 const isArtistAnswerCorrect = (question, answer) => question.song.artist === answer;
 
 export const ActionCreator = {
-  incrementLevel: (level, levelBoundary) => {
+  incrementLevel: () => {
+    const {level, levelBoundary} = store.getState();
     const nextLevel = (level + 1 >= levelBoundary) ? -1 : level + 1;
 
     return {
@@ -15,7 +20,19 @@ export const ActionCreator = {
     };
   },
 
-  incrementError: (question, answer) => {
+  incrementError: () => {
+    const {errorsCount, maxErrors} = store.getState();
+
+    if (errorsCount >= maxErrors) {
+      return ActionCreator.resetState();
+    }
+
+    return {
+      type: `INCREMENT_ERROR`,
+      payload: ERROR_LEVEL_SCALE,
+    };
+  },
+  checkAnswer: (question, answer) => {
     let isAnswerCorrect = false;
 
     switch (question.type) {
@@ -27,10 +44,7 @@ export const ActionCreator = {
         break;
     }
 
-    return {
-      type: `INCREMENT_ERROR`,
-      payload: isAnswerCorrect ? 0 : 1,
-    };
+    return isAnswerCorrect ? ActionCreator.incrementLevel() : ActionCreator.incrementError();
   },
 
   resetState: () => {
